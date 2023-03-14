@@ -2,6 +2,8 @@ package org.example;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,6 +19,15 @@ public class App {
         String pathToFile = "C:\\Users\\Алексей\\Desktop\\test.json";
         File file = new File(pathToFile);
         ObjectMapper objectMapper = new ObjectMapper().findAndRegisterModules();
+
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        objectMapper.registerModule(new JavaTimeModule());
+
+
+//        JsonMapper jsonMapper = new JsonMapper();
+//        jsonMapper.registerModule(new JavaTimeModule());
+
+
 //        List<Ticket> employeeList = (List<Ticket>) objectMapper.readValue(file, new TypeReference<Ticket>(){});
         Ticket ticket = objectMapper.readValue(file, Ticket.class);
         System.out.println(ticket);
