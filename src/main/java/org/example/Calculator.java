@@ -2,95 +2,67 @@ package org.example;
 
 import lombok.experimental.UtilityClass;
 
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
+import java.time.Duration;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
+import java.util.stream.Collectors;
 
 @UtilityClass
 public class Calculator {
-    public static LocalTime calculateAverageTime(Ticket[] tickets) {
 
-        List<Integer> minutes = new ArrayList<>();
+    public static String calculateAverageTime(Ticket[] tickets) {
 
-        for (Ticket ticket : tickets) {
-            LocalDateTime departure = LocalDateTime.of(ticket.getDepartureDate(), ticket.getDepartureTime());
-            LocalDateTime arrival = LocalDateTime.of(ticket.getArrivalDate(), ticket.getArrivalTime());
+        List<Integer> minutes = calculateAllMinutes(tickets);
 
-            System.out.println(ChronoUnit.MINUTES.between(departure, arrival));
-
-            minutes.add((int) ChronoUnit.MINUTES.between(departure, arrival));
-
-            int time = (int) ChronoUnit.MINUTES.between(departure, arrival);
-        }
-
-        OptionalDouble aver = minutes.stream() //
-                .mapToInt(i -> i) //
+        OptionalDouble res = minutes.stream()
+                .mapToInt(s -> s)
                 .average();
 
-        OptionalInt max = minutes.stream() //
-                .mapToInt(i -> i) //
+        if (!res.isPresent()) {
+            return "Nothing!";
+        }
+
+        return getTime(res.getAsDouble());
+    }
+
+    public static String calculatePercentOfTime(Ticket[] tickets) {
+
+        List<Integer> minutes = calculateAllMinutes(tickets);
+
+        OptionalInt max = minutes.stream()
+                .mapToInt(s -> s)
                 .max();
 
-        int avr = (int) aver.getAsDouble();
-        double percent = max.getAsInt() * 0.9;
-        System.out.println(percent);
-        for (Ticket ticket : tickets) {
-
+        if (!max.isPresent()) {
+            return "Nothing!";
         }
-        // TODO: 16.03.2023 in another method to convert into LocalTime
-        int hours = avr / 60;
-        int min = avr % 60;
-//        LocalTime ly = LocalTime.of(hours, min);
-        System.out.println("******");
-//        System.out.println(ly);
-//        System.out.println(avr);
-        System.out.println(getTime(avr));
-        System.out.println(getTime(percent));
-//        LocalDate date = LocalDate.now();
-//        LocalTime time = LocalTime.now();
-//        LocalTime timeEnd = time.plus(2, ChronoUnit.HOURS);
-//
-//        long l = (time.getLong(ChronoField.MINUTE_OF_DAY) - timeEnd.getLong(ChronoField.MINUTE_OF_DAY)) / 2;
-//
-//        LocalDateTime fr = LocalDateTime.
-//
-//                LocalTime averange = LocalTime.of();
-//
-//        LocalDateTime dateTime = LocalDateTime.of(date, time);
 
-//        ChronoUnit.HOURS.
-        return getTime(avr);
+        return getTime(max.getAsInt());
     }
 
-    public static LocalTime calculatePercentOfTime(Ticket[] tickets){
-        List<Integer> minutes = new ArrayList<>();
+    public static List<Integer> calculateAllMinutes(Ticket[] tickets) {
 
-        for (Ticket ticket : tickets) {
-            LocalDateTime departure = LocalDateTime.of(ticket.getDepartureDate(), ticket.getDepartureTime());
-            LocalDateTime arrival = LocalDateTime.of(ticket.getArrivalDate(), ticket.getArrivalTime());
-
-            System.out.println(ChronoUnit.MINUTES.between(departure, arrival));
-
-            minutes.add((int) ChronoUnit.MINUTES.between(departure, arrival));
-
-            int time = (int) ChronoUnit.MINUTES.between(departure, arrival);
-        }
-        OptionalInt max = minutes.stream() //
-                .mapToInt(i -> i) //
-                .max();
-        double percent = max.getAsInt() * 0.9;
-        return getTime(percent);
+        return Arrays.stream(tickets)
+                .map(Calculator::calculateMinutes)
+                .collect(Collectors.toList());
     }
 
-    public static LocalTime getTime(int minutes) {
-        return LocalTime.of(minutes / 60, minutes % 60);
+    private static Integer calculateMinutes(Ticket ticket) {
+        ZonedDateTime departure = ZonedDateTime.of(ticket.getDepartureDate(), ticket.getDepartureTime(), ZoneOffset.of("+10"));
+        ZonedDateTime arrival = ZonedDateTime.of(ticket.getArrivalDate(), ticket.getArrivalTime(), ZoneOffset.of("+02"));
+        return (int) Duration.between(departure, arrival).toMinutes();
     }
 
-    public static LocalTime getTime(double minutes) {
-        return LocalTime.of((int) minutes / 60, (int) minutes % 60);
+    public static String getTime(int minutes) {
+        return String.format("%d hours %d min", minutes / 60, minutes % 60);
+    }
+
+    public static String getTime(double minutes) {
+        int intMin = (int) Math.round(minutes);
+        return String.format("%d hours %d min", intMin / 60, intMin % 60);
     }
 }
