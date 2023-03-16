@@ -1,29 +1,24 @@
-//package org.example;
-//
-//import com.fasterxml.jackson.core.type.TypeReference;
-//import com.fasterxml.jackson.databind.ObjectMapper;
-//import lombok.experimental.UtilityClass;
-//
-//import java.io.File;
-//import java.io.IOException;
-//import java.util.List;
-//
-//
-//@UtilityClass
-//public class JsonParser {
-//    public String getText() {
-//    }
-////    ObjectMapper objectMapper = new ObjectMapper().findAndRegisterModules();
-////    File file = new File("src/test/resources/employee.json");
-//
-////    File file = new File ()
-//
-////    Ticket employee = objectMapper.readValue(file, Ticket .class);
-//
-////    File file = new File("src/test/resources/employeeList.json");
-////    List<Ticket> employeeList = (List<Ticket>) objectMapper.readValue(file, new TypeReference<Ticket>(){});
-//
-////    public JsonParser(String pathToFile) throws IOException {
-////    }
-////    Ticket ticket = objectMapper.readValue(employeeJson, Ticket.class);
-//}
+package org.example;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.experimental.UtilityClass;
+
+import java.io.File;
+import java.io.IOException;
+
+
+@UtilityClass
+public class JsonParser {
+    public static Ticket[] getTicketsFromFile(String pathToFile2) throws IOException {
+        String pathToFile = "C:\\Users\\Алексей\\Desktop\\tickets.json";
+//        String pathToFile = "C:\\Users\\Алексей\\Desktop\\test.json";
+//        String pathToFile = "C:\\Users\\Алексей\\Desktop\\test2.json";
+        File file = new File(pathToFile);
+
+        ObjectMapper objectMapper = new ObjectMapper().findAndRegisterModules();
+        JsonNode jsonNode = objectMapper.readTree(file);
+        JsonNode statusNode = jsonNode.get("tickets");
+        return objectMapper.treeToValue(statusNode, Ticket[].class);
+    }
+}

@@ -1,25 +1,23 @@
 package org.example;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.io.File;
 import java.io.IOException;
+import java.time.LocalTime;
+
+import static org.example.Calculator.calculateAverageTime;
+import static org.example.Calculator.calculatePercentOfTime;
+import static org.example.JsonParser.getTicketsFromFile;
 
 public class App {
     public static void main(String[] args) throws IOException {
-//        String pathToFile = "C:\\Users\\Алексей\\Desktop\\tickets.json";
-//        String pathToFile = "C:\\Users\\Алексей\\Desktop\\test.json";
-        String pathToFile = "C:\\Users\\Алексей\\Desktop\\test2.json";
-        File file = new File(pathToFile);
-
-        ObjectMapper objectMapper = new ObjectMapper().findAndRegisterModules();
-
-        Ticket[] asArray = objectMapper.readValue(file, Ticket[].class);
+//        Ticket[] tickets = getTicketsFromFile(args[0]);
+        Ticket[] tickets = getTicketsFromFile("args[0]");
+        LocalTime averageTime = calculateAverageTime(tickets);
+        LocalTime percentTime = calculatePercentOfTime(tickets);
+        System.out.println("average time is " + averageTime);
+        System.out.println("90-percent time is " + percentTime);
 
         // TODO: 15.03.2023 https://www.digitalocean.com/community/tutorials/jackson-json-java-parser-api-example-tutorial
 
-        for (Ticket ticket : asArray) {
-            System.out.println(ticket);
-        }
+
     }
 }
