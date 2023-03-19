@@ -1,10 +1,14 @@
-package org.example;
+package org.example.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.*;
+import org.example.deser.DataDeserializer;
+import org.example.deser.TimeDeserializer;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -13,7 +17,7 @@ import java.time.LocalTime;
 @Getter
 @Setter
 @ToString
-@JsonDeserialize(using = TicketDeserializer.class)
+@JsonIgnoreProperties(ignoreUnknown = true)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 
 public class Ticket {
@@ -21,9 +25,13 @@ public class Ticket {
     private String originName;
     private String destination;
     private String destinationName;
+    @JsonDeserialize(using = DataDeserializer.class)
     private LocalDate departureDate;
+    @JsonDeserialize(using = TimeDeserializer.class)
     private LocalTime departureTime;
+    @JsonDeserialize(using = DataDeserializer.class)
     private LocalDate arrivalDate;
+    @JsonDeserialize(using = TimeDeserializer.class)
     private LocalTime arrivalTime;
     private String carrier;
     private int stops;

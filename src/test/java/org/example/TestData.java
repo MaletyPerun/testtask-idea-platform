@@ -1,41 +1,52 @@
 package org.example;
 
+import org.example.model.Ticket;
+import org.example.service.Calculator;
+import org.example.deser.JsonParser;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import static org.example.TicketDeserializer.DATE_FORMATTER;
-import static org.example.TicketDeserializer.TIME_FORMATTER;
+import static org.example.util.Formatter.DATE_FORMATTER;
+import static org.example.util.Formatter.TIME_FORMATTER;
 
 public class TestData {
 
+    public static final JsonParser testParser = new JsonParser();
+    public static final Calculator testCalculator = new Calculator();
 
-    public static final String JSON_STRING = "{\n" +
-            "  \"tickets\": [{\n" +
-            "    \"origin\": \"VVO\",\n" +
-            "    \"origin_name\": \"Владивосток\",\n" +
-            "    \"destination\": \"TLV\",\n" +
-            "    \"destination_name\": \"Тель-Авив\",\n" +
-            "    \"departure_date\": \"12.05.18\",\n" +
-            "    \"departure_time\": \"16:20\",\n" +
-            "    \"arrival_date\": \"12.05.18\",\n" +
-            "    \"arrival_time\": \"22:10\",\n" +
-            "    \"carrier\": \"TK\",\n" +
-            "    \"stops\": 3,\n" +
-            "    \"price\": 12400\n" +
-            "  }, {\n" +
-            "    \"origin\": \"VVO\",\n" +
-            "    \"origin_name\": \"Владивосток\",\n" +
-            "    \"destination\": \"TLV\",\n" +
-            "    \"destination_name\": \"Тель-Авив\",\n" +
-            "    \"departure_date\": \"12.05.18\",\n" +
-            "    \"departure_time\": \"17:20\",\n" +
-            "    \"arrival_date\": \"12.05.18\",\n" +
-            "    \"arrival_time\": \"23:50\",\n" +
-            "    \"carrier\": \"S7\",\n" +
-            "    \"stops\": 1,\n" +
-            "    \"price\": 13100\n" +
-            "  }]\n" +
-            "}";
+
+    public static final String JSON_STRING = """
+            {
+              "tickets": [
+              {
+                "origin": "VVO",
+                "origin_name": "Владивосток",
+                "destination": "TLV",
+                "destination_name": "Тель-Авив",
+                "departure_date": "12.05.18",
+                "departure_time": "16:20",
+                "arrival_date": "12.05.18",
+                "arrival_time": "22:10",
+                "carrier": "TK",
+                "stops": 3,
+                "price": 12400
+              }, {
+                "origin": "VVO",
+                "origin_name": "Владивосток",
+                "destination": "TLV",
+                "destination_name": "Тель-Авив",
+                "departure_date": "12.05.18",
+                "departure_time": "17:20",
+                "arrival_date": "12.05.18",
+                "arrival_time": "23:50",
+                "carrier": "S7",
+                "stops": 1,
+                "price": 13100
+              }
+             ]
+            }
+            """;
 
     public static final Ticket TICKET_1 = new Ticket(
             "VVO",

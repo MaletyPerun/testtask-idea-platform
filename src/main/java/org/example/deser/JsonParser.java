@@ -1,20 +1,21 @@
-package org.example;
+package org.example.deser;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.experimental.UtilityClass;
+import org.example.model.Ticket;
 
 import java.io.File;
 import java.io.IOException;
 
 
-@UtilityClass
 public class JsonParser {
-    public static Ticket[] getTicketsFromFile(String pathToFile) {
+    public Ticket[] getTicketsFromFile(String pathToFile) {
         File file = new File(pathToFile);
 
         ObjectMapper objectMapper = new ObjectMapper().findAndRegisterModules();
+        objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         JsonNode jsonNode = null;
         try {
             jsonNode = objectMapper.readTree(file);

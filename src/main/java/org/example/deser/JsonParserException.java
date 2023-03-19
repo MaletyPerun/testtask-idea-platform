@@ -1,4 +1,4 @@
-package org.example;
+package org.example.deser;
 
 public class JsonParserException extends RuntimeException {
 
