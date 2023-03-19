@@ -37,5 +37,5 @@ RAM 8GB
 - для Unix: `./mvnw clean install`
 - для Windows: `mvnw.cmd clean install`
 - далее:
-  `java -jar target/testtask-idea-platform-1.0-SNAPSHOT.jar <путь к json файлу>.json`
+  `java -jar target/testtask-idea-platform-1.1-SNAPSHOT.jar <путь к json файлу>.json`
 
