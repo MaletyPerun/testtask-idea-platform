@@ -21,12 +21,12 @@ public class App {
         String averageTime = calculator.calculateAverageTime(tickets);
         String percentTime = calculator.calculatePercentOfTime(tickets);
 
-        if (!(averageTime.isEmpty() || percentTime.isEmpty())) {
-            log.info("average time is " + averageTime);
-            log.info("90-percent time is " + percentTime);
-        } else {
+        if (averageTime == null || percentTime == null) {
             log.error("bad calculate");
             throw new AppException("bad calculate");
+        } else {
+            log.info("average time is " + averageTime);
+            log.info("90-percent time is " + percentTime);
         }
     }
 }
