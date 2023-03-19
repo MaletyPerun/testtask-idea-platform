@@ -2,16 +2,16 @@ package org.example.service;
 
 import org.example.model.Ticket;
 
-import java.time.*;
-import java.time.chrono.ChronoLocalDateTime;
-import java.time.temporal.TemporalAccessor;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
-import java.util.stream.Collectors;
 
-import static org.example.util.OriginZone.ORIGIN_ZONE;
+import static org.example.util.Formatter.ORIGIN_TIME_ZONE;
 
 public class Calculator {
 
@@ -49,18 +49,18 @@ public class Calculator {
 
         return Arrays.stream(tickets)
                 .map(Calculator::calculateMinutes)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     private static Integer calculateMinutes(Ticket ticket) {
         Instant departure = ZonedDateTime.of(
                 ticket.getDepartureDate(),
                 ticket.getDepartureTime(),
-                ZoneOffset.of(ORIGIN_ZONE.get(ticket.getOrigin()))).toInstant();
+                ZoneOffset.of(ORIGIN_TIME_ZONE.get(ticket.getOrigin()))).toInstant();
         Instant arrival = ZonedDateTime.of(
                 ticket.getArrivalDate(),
                 ticket.getArrivalTime(),
-                ZoneOffset.of(ORIGIN_ZONE.get(ticket.getDestination()))).toInstant();
+                ZoneOffset.of(ORIGIN_TIME_ZONE.get(ticket.getDestination()))).toInstant();
         return (int) Duration.between(departure, arrival).toMinutes();
     }
 
