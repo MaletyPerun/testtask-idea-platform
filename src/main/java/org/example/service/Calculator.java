@@ -1,6 +1,5 @@
 package org.example.service;
 
-import lombok.extern.slf4j.Slf4j;
 import org.example.model.Ticket;
 
 import java.time.Duration;
@@ -14,7 +13,6 @@ import java.util.OptionalInt;
 
 import static org.example.util.Formatter.ORIGIN_TIME_ZONE;
 
-@Slf4j
 public class Calculator {
 
     public String calculateAverageTime(Ticket[] tickets) {
@@ -40,11 +38,16 @@ public class Calculator {
                 .mapToInt(s -> s)
                 .max();
 
+        OptionalInt min = minutes.stream()
+                .mapToInt(s -> s)
+                .min();
+
         if (max.isEmpty()) {
             return "Nothing!";
         }
 
-        int percent = (int) (max.getAsInt() * 0.9);
+        int diapason = max.getAsInt() - min.getAsInt();
+        double percent = max.getAsInt() - diapason * 0.1;
 
         return getTime(percent);
     }
