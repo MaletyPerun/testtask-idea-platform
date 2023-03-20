@@ -18,7 +18,7 @@ class CalculatorTest {
 
     @Test
     void calculatePercent() {
-        assertEquals("14 hours 30 min", testCalculator.calculatePercentOfTime(TICKETS));
+        assertEquals("13 hours 3 min", testCalculator.calculatePercentOfTime(TICKETS));
     }
 
     @Test
